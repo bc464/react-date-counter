@@ -3,8 +3,8 @@ import React, { useState } from "react";
 export default function App() {
   return (
     <div className="app">
-      <h1>Hello CodeSandBox</h1>
-      <h2>Start editing to see some magic happening</h2>
+      <h1>Hello</h1>
+      <h2>Determine dates in the past or future</h2>
       <Counter />
     </div>
   );
@@ -14,7 +14,7 @@ function Counter() {
   const [step, setStep] = useState(1);
   const [count, setCount] = useState(0);
 
-  const date = new Date(" june 21 2027");
+  const date = new Date("june 21 2027");
   date.setDate(date.getDate() + count);
 
   function handleStepDown() {
@@ -30,17 +30,35 @@ function Counter() {
     setCount((c) => c + step);
   }
 
+  function handleReset() {
+    setCount(0);
+    setStep(1);
+  }
+
   return (
     <>
       <div className="containers">
-        <button onClick={handleStepDown}>-</button>
+        <input
+          value={step}
+          onChange={(e) => setStep(Number(e.target.value))}
+          type="range"
+          min="0"
+          max="10"
+        />
+        <span>Step: {step}</span>
+        {/* <button onClick={handleStepDown}>-</button>
         <h2>Step: {step}</h2>
-        <button onClick={handleStepUp}>+</button>
+        <button onClick={handleStepUp}>+</button> */}
       </div>
 
       <div className="containers">
         <button onClick={handleCountDown}>-</button>
-        <h2>Count: {count}</h2>
+        <input
+          type="text"
+          value={count}
+          onChange={(e) => setCount(Number(e.target.value))}
+        />
+
         <button onClick={handleCountUp}>+</button>
       </div>
 
@@ -54,6 +72,11 @@ function Counter() {
         </span>
         {date.toDateString()}
       </h4>
+      {count !== 0 || step !== 1 ? (
+        <div>
+          <button onClick={handleReset}>Reset</button>
+        </div>
+      ) : null}
     </>
   );
 }
